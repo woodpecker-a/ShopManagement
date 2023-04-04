@@ -1,7 +1,11 @@
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
 using Infrastructure.DbContexts;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +19,15 @@ try
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     var assemblyName = Assembly.GetExecutingAssembly().FullName;
-    //DB = "GTR"
 
+    builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+    builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => {
+        containerBuilder.RegisterModule(new InfrastructureModule(connectionString,
+            assemblyName));
+        containerBuilder.RegisterModule(new APIModulle());
+    });
+
+    //DB = "GTR"
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(connectionString, m => m.MigrationsAssembly(assemblyName)));
 
