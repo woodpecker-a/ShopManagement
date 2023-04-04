@@ -1,5 +1,7 @@
+using Infrastructure.DbContexts;
 using Serilog;
 using Serilog.Events;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,13 @@ builder.Host.UseSerilog((ctx, lc) => lc
 
 try
 {
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var assemblyName = Assembly.GetExecutingAssembly().FullName;
+    //DB = "GTR"
+
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString, m => m.MigrationsAssembly(assemblyName)));
+
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
