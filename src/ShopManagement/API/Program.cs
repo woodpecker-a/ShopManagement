@@ -39,6 +39,8 @@ try
 
     var app = builder.Build();
 
+    Log.Information("API started...");
+
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
@@ -56,10 +58,10 @@ try
 
 catch(Exception ex)
 {
-
+    Log.Fatal(ex, "API CCrushed");
 }
 
 finally
 {
-    
+    Log.CloseAndFlush();
 }
