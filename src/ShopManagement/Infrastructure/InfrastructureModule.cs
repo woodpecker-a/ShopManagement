@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Infrastructure.DbContexts;
+using Infrastructure.Models;
 using Infrastructure.Services;
 
 namespace Infrastructure
@@ -29,6 +30,8 @@ namespace Infrastructure
 
             builder.RegisterType<TokenService>().As<ITokenService>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<UserModel>().AsSelf();
 
             base.Load(builder);
         }

@@ -12,18 +12,21 @@ namespace Infrastructure.Seeds
     {
         PasswordHasher<ApplicationUser> password = new PasswordHasher<ApplicationUser>();
 
-        internal ApplicationUser user
+        internal ApplicationUser[] SuperUser
         {
             get
             {
-                return new ApplicationUser
+                return new ApplicationUser[]
                 {
-                    Id = Guid.NewGuid(),
-                    UserName = "Admin",
-                    Email = "super@admin.com",
-                    LockoutEnabled = false,
-                    PhoneNumber = "01521111111",
-                    PasswordHash = password.HashPassword(user, "admin123")
+                    new ApplicationUser
+                    {
+                        Id = Guid.NewGuid(),
+                        UserName = "Admin",
+                        Email = "super@admin.com",
+                        LockoutEnabled = false,
+                        PhoneNumber = "01521111111",
+                        PasswordHash = password.HashPassword(SuperUser[0], "admin123")
+                    }
                 };
             }
         }
