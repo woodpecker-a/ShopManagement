@@ -12,6 +12,8 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Infrastructure.Securities;
+using Infrastructure.Seeds;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,6 +82,18 @@ try
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
         options.User.RequireUniqueEmail = true;
     });
+
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("ProductManagementPolicy", policy =>
+        {
+            policy.AuthenticationSchemes.Clear();
+            policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+            policy.RequireAuthenticatedUser();
+            policy.Requirements.Add(new ProductEditRequrement());
+        });
+    });
+
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

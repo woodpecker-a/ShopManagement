@@ -5,6 +5,7 @@ using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -13,14 +14,16 @@ namespace API.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ITokenService _tokenService;
         private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
-            ITokenService tokenService, ILogger<AccountController> logger)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            RoleManager<ApplicationRole> roleManager, ITokenService tokenService, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _tokenService = tokenService;
             _logger = logger;
         }
@@ -42,6 +45,11 @@ namespace API.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation($"User Created: {model.Email}");
+
+                //await _roleManager.CreateAsync(new ApplicationRole("Admin"));
+                //await _userManager.AddToRoleAsync(user, "Admin");
+                //await _userManager.AddClaimAsync(user, new Claim("CRUDProduct", "true"));
+
                 var claims = (await _userManager.GetClaimsAsync(user)).ToList();
                 var token = await _tokenService.GetJwtToken(claims);
 
@@ -62,6 +70,11 @@ namespace API.Controllers
 
                 if(result.Succeeded)
                 {
+                    //var role = await _roleManager.FindByNameAsync("Admin");
+                    //var claim = new Claim ("CRUDProduct", "true");
+
+                    //await _roleManager.AddClaimAsync(role, claim);
+
                     _logger.LogInformation($"User LogIn: {model.Email}");
                     var claims = (await _userManager.GetClaimsAsync(user)).ToList();
                     var token = await _tokenService.GetJwtToken(claims);
@@ -69,7 +82,6 @@ namespace API.Controllers
                     return Ok(token);
                 }
             }
-
             return BadRequest();
         }
     }
