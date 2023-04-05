@@ -6,6 +6,9 @@ using Serilog;
 using Serilog.Events;
 using System.Reflection;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Infrastructure.Entities;
+using Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,14 @@ try
         options.UseSqlServer(connectionString, m => m.MigrationsAssembly(assemblyName)));
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+    builder.Services
+        .AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddUserManager<ApplicationUserManager>()
+        .AddRoleManager<ApplicationRoleManager>()
+        .AddSignInManager<ApplicationSignInManager>()
+        .AddDefaultTokenProviders();
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

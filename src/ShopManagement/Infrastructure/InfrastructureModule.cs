@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Infrastructure.DbContexts;
+using Infrastructure.Services;
 
 namespace Infrastructure
 {
@@ -23,6 +24,11 @@ namespace Infrastructure
                 .WithParameter("connectionString", _connectionString)
                 .WithParameter("migrationAssemblyName", _migrationAssemblyName)
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<TokenService>().As<ITokenService>()
+                .InstancePerLifetimeScope();
+
+            base.Load(builder);
         }
     }
 }
