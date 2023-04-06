@@ -10,15 +10,18 @@ namespace Infrastructure.Entities
     {
         public int Id { get; set; }
         public string ProductName { get; set; }
+        public Catagory Catagory { get; set; }
+        public int CatagoryId { get; set; }
+        public Unit Unit { get; set; }
+        public int UnitId { get; set; }
         public int ProductCode { get; set; }
         public int ParentCode { get; set; }
         public int ProductBarCode { get; set; }
-        public string Description { get; set; }
-        public Brand Brand { get; set; }
-        public int BrandId { get; set; }
-        public int SizeId { get; set; }
-        public int ColorId { get; set; }
-        public string ImagePath { get; set; }
-
+        public ProductDetail ProductDetail { get; set; }
+        public int ProductDetailId { get; set; }
+        public Pricing Price { get; set; }
+        public int PriceId { get; set; }
+        public List<ProductWarehouse> WarehouseList { get; set; }
+        public bool Status { get; set; }
     }
 }

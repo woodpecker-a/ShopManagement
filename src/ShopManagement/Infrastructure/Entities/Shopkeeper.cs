@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Entities
 {
-    public class Brand : IEntity<int>
+    public class Shopkeeper
     {
         public int Id { get; set; }
-        public string BrandName { get; set; }
+        public string Name { get; set; }
     }
 }
