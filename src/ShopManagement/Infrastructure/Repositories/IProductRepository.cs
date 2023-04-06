@@ -1,6 +1,8 @@
-﻿namespace Infrastructure.Repositories
+﻿using Infrastructure.Entities;
+
+namespace Infrastructure.Repositories
 {
-    public interface IProductRepository
+    public interface IProductRepository : IRepository<Product, int>
     {
 
     }

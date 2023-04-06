@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.Entities
+﻿namespace Infrastructure.BusinessObjects
 {
-    public class Customer : IEntity<int>
+    public class Varient
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.Entities
+﻿namespace Infrastructure.BusinessObjects
 {
-    public class Customer : IEntity<int>
+    public class Size
     {
         public int Id { get; set; }
         public string Name { get; set; }
