@@ -2,8 +2,8 @@
 
 namespace Infrastructure.UnitOfWorks
 {
-    public interface IApplicationUnitOfWork
+    public interface IApplicationUnitOfWork : IUnitOfWork
     {
-        IProductRepository Product { get; }
+        IProductRepository Products { get; }
     }
 }
